@@ -1,0 +1,259 @@
+FIFO:
+a=input("enter the reference string :")
+r = list(map(int, a.split()))
+list1=[]
+n=int(input("enter no of frames"))
+hits=0
+fault=0
+k=0
+for i in range(len(r)):
+if r[i] in list1:
+hits+=1
+else:
+fault+=1
+if(len(list1)!=n):
+list1.append(r[i])
+else:
+list1[k]=r[i]
+k+=1
+if(k>(n-1)):
+k=0
+print(f"at t{i+1} frame contains :{list1}")
+print("no of hits :",hits)
+print("no of faults :",fault)
+ratio =(hits)/len(r)
+rr=ratio*100
+print(f"hit ratio :{rr}%")
+
+
+LRU:
+a=input("enter the string reference :")
+r=list(map(int,a.split()))
+list1=[]
+hit=0
+k=0
+t=0
+m=[]
+n=int(input("enter the number pf frames: "))
+fault=0
+for i in range(len(r)):
+if r[i] in list1:
+hit+=1
+else:
+fault+=1
+if(len(list1)!=n):
+list1.append(r[i])
+else:
+if(i==n):
+list1[0]=r[i]
+else:
+m=[]
+t=0
+for j in range(i-1,0,-1):
+if((r[j] not in m) and (r[j] in list1)):
+m.append(r[j])
+t+=1
+if(t==n):
+break
+k=m.pop()
+index=list1.index(k)
+list1[index]=r[i]
+print(f"at t{i+1} frame contains {list1}")
+print(f"no of hits :{hit}")
+print(f"no of faults :{fault}")
+
+
+OPTIMAL:
+a=input("enter the reference string :")
+r=list(map(int,a.split()))
+hits=0
+list1=[]
+fault=0
+n=int(input("enter the no of frames: "))
+for i in range(len(r)):
+if r[i] in list1:
+hits+=1
+else:
+fault+=1
+if(len(list1)!=n):
+list1.append(r[i])
+else:
+l1=r[i+1:]
+if(list1[0] not in l1):
+list1[0]=r[i]
+elif(list1[1] not in l1):
+list1[1]=r[i]
+elif(list1[2] not in l1):
+list1[2]=r[i]
+else:
+a=l1.index(list1[0])
+b=l1.index(list1[1])
+c=l1.index(list1[2])
+if(a>b and a>c):
+list1[0]=r[i]
+elif(b>a and b>c):
+list1[1]=r[i]
+elif(c>a and c>b):
+list1[2]=r[i]
+print(f"at t{i+1} frame contains {list1}")
+print("number of hits :",hits)
+print("number of faults :",fault)
+
+
+CLOOK:
+a=input("enter the request queue : ")
+b=int(input("enter the current position of r/w head :"))
+r=list(map(int,a.split(' ')))
+m=0
+d=input("enter l/r for (left or right) :")
+r.append(b)
+r.sort()
+k=r.index(b)
+if(d=='r'):
+l1=r[:k]
+l2=r[k:]
+r=l2+l1
+else:
+l1=r[:k+1]
+l2=r[k+1:]
+l1=list(reversed(l1))
+l2=list(reversed(l2))
+r=l1+l2
+for i in range(1,len(r)):
+s=abs(r[i]-r[i-1])
+m+=s
+print("head movement : ",m)
+print("seek sequence :")
+print(r)
+
+
+CSSCAN:
+a = input("enter the request queue : ")
+b = int(input("enter the current position of r/w head :"))
+r = list(map(int, a.split(' ')))
+d = input("enter l/r for (left or right) :")
+r.append(b)
+r.append(0)
+r.append(199)
+r.sort()
+m=0
+k = r.index(b)
+if (d == 'r'):
+l1 = r[0:k]
+l2 = r[k:]
+r = l2 + l1
+else:
+l1=r[0:k+1]
+l2=r[k+1:]
+l1=list(reversed(l1))
+l2=list(reversed(l2))
+r=l1+l2
+for i in range(1,len(r)):
+s=abs(r[i]-r[i-1])
+m+=s
+print("head movement : ",m)
+print("seek sequence :")
+print(r)
+
+
+FCFS:
+a=input("enter the request queue : ")
+b=int(input("enter the head position :"))
+r=list(map(int,a.split(' ')))
+r.insert(0,b)
+k=0
+for i in range(1,len(r)):
+s=abs(r[i]-r[i-1])
+k=k+s
+print("the total number of head movement :",k)
+print("")
+print("the seek sequence is :")
+print(r)
+
+
+LOOK:
+a=input("enter the request queue : ")
+b=int(input("enter the current position of r/w head :"))
+r=list(map(int,a.split(' ')))
+m=0
+d=input("enter l/r for (left or right) :")
+r.append(b)
+if(d=='r'):
+r.sort()
+k=r.index(b)
+l1=r[0:k]
+l2=r[k+1:]
+l1=list(reversed(l1))
+r=l2+l1
+r.insert(0,b)
+else:
+r.sort()
+k=r.index(b)
+l1=r[0:k+1]
+l2=r[k+1:]
+l1=list(reversed(l1))
+r=l1+l2
+for i in range(1,len(r)):
+s=abs(r[i]-r[i-1])
+m+=s
+print("head movement : ",m)
+print("seek sequence :")
+print(r)
+
+
+SCAN:
+a=input("enter the request queue : ")
+b=int(input("enter the current position of r/w head :"))
+r=list(map(int,a.split(' ')))
+m=0
+d=input("enter l/r for (left or right) :")
+r.append(b)
+if(d=='r'):
+r.append(199)
+r.sort()
+k=r.index(b)
+l1=r[0:k]
+l2=r[k+1:]
+l1=list(reversed(l1))
+r=l2+l1
+r.insert(0,b)
+else:
+r.append(0)
+r.sort()
+k=r.index(b)
+l1=r[0:k+1]
+l2=r[k+1:]
+l1=list(reversed(l1))
+r=l1+l2
+for i in range(1,len(r)):
+s=abs(r[i]-r[i-1])
+m+=s
+print("head movement : ",m)
+print("seek sequence :")
+print(r)
+
+
+SSTF:
+a=input("enter the request queue : ")
+b=int(input("enter the current position of r/w head :"))
+r=list(map(int,a.split(' ')))
+min=9999
+f=b
+k=[]
+m=0
+k.append(b)
+for i in range(len(r)):
+for j in range(len(r)):
+if(abs(f-r[j])<min):
+min=abs(f-r[j])
+l=r[j]
+k.append(l)
+f=l
+min=9999
+r.remove(l)
+for i in range(1,len(k)):
+s=abs(k[i]-k[i-1])
+m+=s
+print("head movement : ",m)
+print("seek sequence :")
+print(k)
